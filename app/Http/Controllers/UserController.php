@@ -24,16 +24,6 @@ class UserController extends Controller
         ]);
 
         dd($data);
-
-        // $data = [
-        //     'email' => $this->request('email'),
-        //     'password' => $this->request('password'),
-        //     'password_confirmation' => $this->request('password_confirmation')
-        // ];
-
-        // $this->validate([
-        //     'email' => 'required|email',
-        //     'password' => 'required|min:5|max:10|confirmed'
-        // ]);
+        
     }
 }

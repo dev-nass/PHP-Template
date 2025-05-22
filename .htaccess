@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1️⃣ Block direct access to sensitive folders (views, controllers, models)
+    RewriteRule ^resources/views/ - [F,L]
+    RewriteRule ^app/Http/Controllers/ - [F,L]
+    RewriteRule ^app/Models/ - [F,L]
+
+    # 2️⃣ Allow direct access to existing files (CSS, JS, Images)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 3️⃣ Redirect all other requests to index.php for MVC routing
+    RewriteRule ^(.*)$ /public/index.php/$1 [QSA,L]
+</IfModule>
