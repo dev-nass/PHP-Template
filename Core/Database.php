@@ -32,11 +32,11 @@ class Database
 
     public function iniDB()
     {
-        $dsn = `mysql:host={$this->host};dbname={$this->dbname}`;
-
+        $dsn = "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']}";
+        
         try {
 
-            $this->connection = new PDO($dsn, $this->username, $this->password, [
+            $this->connection = new PDO($dsn, $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ]);

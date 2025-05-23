@@ -1,0 +1,46 @@
+
+# CODE CREATED BY CHATGPT ON MAY 23, 2025
+
+# Ignore Composer dependencies
+/vendor/
+
+# Ignore Composer lock file if you're developing a library (keep it if you're building an app)
+# Uncomment the line below only if this is a reusable package (e.g., a library)
+// composer.lock
+
+# Ignore environment files (sensitive info)
+# Keep composer.lock if your project is an application (like a template or full app) — this ensures everyone installs the exact same versions of dependencies.
+# Ignore composer.lock if you're building a package/library to be reused across many projects (since you want others to use the latest compatible versions).
+.env
+
+# Ignore IDE config files
+/.idea/
+/.vscode/
+
+# Ignore OS junk
+.DS_Store
+Thumbs.db
+
+# Ignore logs
+*.log
+logs/
+
+# Ignore cache
+cache/
+*.cache
+
+# Ignore test output
+coverage/
+
+# Ignore PHPStorm project files
+*.iml
+
+# Ignore PHPUnit logs
+phpunit.result.cache
+
+# Ignore build artifacts
+/build/
+/dist/
+
+# Ignore uploaded files (optional, depends on your app)
+uploads/

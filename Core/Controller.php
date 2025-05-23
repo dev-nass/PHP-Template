@@ -28,7 +28,7 @@ abstract class Controller
         }
 
         // otherwise we get all 
-        return $this;
+        return $this->request;
     }
 
     public function validate($rules = [])

@@ -18,7 +18,7 @@ class Router
 
         $this->routes[] = [
             'method' => $method,
-            'uri' => "/PHP%202025/PHP%20Template/public/index.php/{$uri}",
+            'uri' => $_ENV['APP_URL'] . "$uri",
             'controller' => $controller,
             'action' => $action,
             'middleware' => null,
@@ -56,12 +56,11 @@ class Router
     public function route($uri, $method)
     {
         foreach($this->routes as $route) {
-
             if($route['uri'] === $uri && $route['method'] === $method) {
 
                 Middleware::resolve($route['middleware'], $route['middleware_role']);
 
-                $ctrlrClass = 'app\Http\Controllers\\' . $route['controller'];
+                $ctrlrClass = 'App\Http\Controllers\\' . $route['controller'];
                 $ctrlrInstance = new $ctrlrClass();
                 $ctrlrActions = get_class_methods($ctrlrInstance);
 
