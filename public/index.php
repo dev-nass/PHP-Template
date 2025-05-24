@@ -36,8 +36,8 @@ require BASE_PATH . 'routes.php';
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 $method = $_POST['__method'] ?? $_SERVER['REQUEST_METHOD'];
 
-dump($_ENV['APP_URL']);
-dump($_SERVER['REQUEST_URI']);
+// dump($_ENV['APP_URL']); added for testing
+// dum($_SERVER['REQUEST_URI']); added for testing
 
 try {
     Session::set('__url', 'last_url', $uri);
