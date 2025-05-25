@@ -58,7 +58,7 @@ spl_autoload_register(function ($class) {
     require base_path("{$class}.php");
 });
 ```
-- But since we are using a packge manager like composer, it comes with its own autoloader that is more optimize for loading our classes that's within their own namespaces, and the packages we `pull` using composer and their dependencies, hence, as a better alternative we now using this autoloader instead of `spl_autoload_register`:
+- But since we are using a packge manager like composer, it comes with its own autoloader that is more optimize for loading our classes that's within their own namespaces, and the packages we `pull` using composer and their dependencies. Hence, as a better alternative we now using this autoloader instead of `spl_autoload_register`:
 ```php
 // vendors > autoload.php
 
