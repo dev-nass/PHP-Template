@@ -5,25 +5,23 @@ namespace Core;
 class Session
 {
 
-    public static function set($rootKey, $childKey, $value)
+    public static function set($key, $value)
     {
-        $_SESSION[$rootKey] = [
-            $childKey => $value,
-        ];
+        $_SESSION[$key] = $value;
     }
 
-    public static function get($rootKey, $childKey, $default = '')
+    public static function get($key, $default = '')
     {
 
-        if(isset($_SESSION[$rootKey][$childKey])) {
-            return $_SESSION[$rootKey][$childKey];
+        if (isset($_SESSION[$key])) {
+            return $_SESSION[$key];
         }
 
-        return $_SESSION[$rootKey] ?? $default;
+        return $_SESSION[$key] ?? $default;
     }
 
-    public static function unflash()
+    public static function unflash($key = '__flash')
     {
-        unset($_SESSION['__flash']);
+        unset($_SESSION[$key]);
     }
 }
