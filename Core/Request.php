@@ -12,6 +12,11 @@ class Request
         $this->request = array_merge($_GET, $_POST);
     }
 
+
+    /**
+     * Used for getting a specific value within
+     * $this->request; Equilvalent to $var = $_GET['name']
+     */
     public function request($key, $default = null)
     {
 

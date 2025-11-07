@@ -45,6 +45,40 @@ function error($input)
     }
 }
 
+
+function view($path, $attribute = [])
+{
+
+    extract($attribute);
+
+    $viewPath = base_path("resources/views/{$path}");
+
+    if (!file_exists($viewPath)) {
+        respond(['error' => 'View not found'], 500);
+    }
+
+    require base_path("resources/views/{$path}");
+}
+
+function redirect($path)
+{
+    header("location: {$path}");
+    exit();
+}
+
+/**
+ * Shows a responsive message in the form of JSON
+ * on the screen. Mostly, erros msgs.
+ * 
+ * Also used for sending PHP errors to a JS file
+ */
+function respond($data, $status = 200)
+{
+    http_response_code($status);
+    header('Content-Type: application/json');
+    echo json_encode($data);
+}
+
 function abort($code = 404)
 {
     http_response_code($code);

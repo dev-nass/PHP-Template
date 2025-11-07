@@ -7,13 +7,13 @@ use Core\Middleware\Middleware;
 class Router
 {
 
-    public $routes = [];
+    private $routes = [];
 
     /**
      * $controller - contains the ctrlr class
      * $action - is method within the ctrlr
-    */
-    public function add($method, $uri, $controller, $action)
+     */
+    private function add($method, $uri, $controller, $action)
     {
 
         $this->routes[] = [
@@ -42,7 +42,7 @@ class Router
     /**
      * For adding middlewares 
      * to every last last route elem.
-    */
+     */
     public function only($key, $role = null)
     {
         $this->routes[array_key_last($this->routes['middleware'])] = $key;
@@ -52,22 +52,23 @@ class Router
     /**
      * Routes the page based on
      * the request.
-    */
+     */
     public function route($uri, $method)
     {
-        foreach($this->routes as $route) {
-            if($route['uri'] === $uri && $route['method'] === $method) {
+
+        foreach ($this->routes as $route) {
+            if ($route['uri'] === $uri && $route['method'] === $method) {
 
                 Middleware::resolve($route['middleware'], $route['middleware_role']);
 
-                $ctrlrClass = 'App\Http\Controllers\\' . $route['controller'];
-                $ctrlrInstance = new $ctrlrClass();
-                $ctrlrActions = get_class_methods($ctrlrInstance);
+                $controller_class_path = '\\App\Http\Controllers\\' . $route['controller'];
+                $controller_class_instance = new $controller_class_path();
+                $controller_class_actions = get_class_methods($controller_class_instance);
 
-                foreach($ctrlrActions as $action) {
-                    if($route['action'] === $action) {
-                        call_user_func([$ctrlrInstance, $action]);
-                        return; // added for the abort, so the loop will end
+                foreach ($controller_class_actions as $action) {
+                    if ($action === $route['action']) {
+                        call_user_func([$controller_class_instance, $action]);
+                        return;
                     }
                 }
 

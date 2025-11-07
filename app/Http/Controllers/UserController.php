@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use Core\Controller;
 use App\Models\User;
+use Core\Database;
+use Core\Request;
 
 class UserController extends Controller
 {
 
+    protected $database;
+
+    public function __construct()
+    {
+        $this->database = new Database();
+    }
+
     public function index()
     {
 
-        return $this->view('index.view.php', [
+        return view('index.view.php', [
             'title' => 'Home Page',
         ]);
     }
@@ -19,12 +28,14 @@ class UserController extends Controller
     public function store()
     {
 
-        $data = $this->request()->validate([
+        $request = new Request();
+
+        $data = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:5|max:10|confirmed'
         ]);
 
         dd($data);
-        
+
     }
 }
