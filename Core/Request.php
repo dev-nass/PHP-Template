@@ -68,6 +68,7 @@ class Request
             'errors' => $errors
         ];
 
+
         Session::set('__flash', $flashData);
 
 

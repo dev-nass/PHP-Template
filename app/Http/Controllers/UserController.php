@@ -32,7 +32,7 @@ class UserController extends Controller
 
         $data = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:5|max:10|confirmed'
+            'password' => 'required|email|confirmed'
         ]);
 
         dd($data);

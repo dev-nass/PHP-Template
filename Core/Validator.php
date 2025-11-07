@@ -2,49 +2,61 @@
 
 namespace Core;
 
-use Core\Database;
-
 class Validator
 {
 
-    public $errors = [];
-    public $data = [];
-    public $field = '';
-    public $mod_field_name = ''; // used for column seperated with '_' such as contact_number
+    public $errors;
+    public $data; // hold the array of data ['first_name' => 'John', 'last_name' => 'Doe']
+    public $input_name;
+    public $mod_field_name; // used for showing error messages; So contact_number will be 'Contact number incorrect'
 
 
-    public function __construct($data, $field, $mod_field_name)
+    public function __construct($data, $input_name, $mod_field_name)
     {
         $this->data = $data;
-        $this->field = $field;
+        $this->input_name = $input_name;
         $this->mod_field_name = $mod_field_name;
     }
 
     public function required()
     {
-
-        if (! isset($this->data)) {
-            $this->errors[$this->field][] = ucfirst("$this->mod_field_name is required");
-            return false;
+        if (!isset($this->data[$this->input_name]) || $this->data[$this->input_name] === '') {
+            return
+                $this->errors[$this->input_name][] = ucfirst("$this->mod_field_name is required");
         }
 
-        return;
+        return true;
     }
+
 
     public function email()
     {
 
-        if (! filter_var($this->data[$this->field], FILTER_VALIDATE_EMAIL)) {
-            return $this->errors[$this->field][] = ucfirst("$this->mod_field_name must be a valid email");
+        $value = $this->data[$this->input_name] ?? null;
+
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            return ucfirst("{$this->mod_field_name} must be a valid email");
         }
 
-        return;
+        return true;
     }
+
+
+    public function confirmed()
+    {
+
+        if ($this->data['password'] !== $this->data['password_confirmation']) {
+            return ucfirst("Password does not match");
+        }
+
+        return true;
+    }
+
 
     public function min($min_length)
     {
-        if (strlen($this->data[$this->field]) < $min_length) {
-            return $this->errors[$this->field][] = ucfirst("$this->mod_field_name must be at least $min_length characters");
+        if (strlen($this->data[$this->input_name]) < $min_length) {
+            return $this->errors[$this->input_name][] = ucfirst("$this->mod_field_name must be at least $min_length characters");
         }
 
         return;
@@ -52,35 +64,8 @@ class Validator
 
     public function max($max_length)
     {
-        if (strlen($this->data[$this->field]) > $max_length) {
-            return $this->errors[$this->field][] = ucfirst("$this->mod_field_name must not exceed $max_length characters");
-        }
-
-        return;
-    }
-
-    public function unique($table, $column, $id)
-    {
-
-        $db = new Database;
-        
-        $tableSingular = substr($table, 0, -1);
-
-        $doesExist = $db->query("SELECT * FROM $table WHERE $column = :value AND NOT {$tableSingular}_id = :id", [
-            "value" => $this->data[$this->field],
-            "id" => $id
-        ])->find();
-
-        return $doesExist ? true : $this->errors[$this->field][] = ucfirst("{$this->mod_field_name} already exists");;
-    }
-
-    /**
-     * Always looks for $input_confirmation
-     */
-    public function confirmed()
-    {
-        if ($this->data[$this->field] !== $this->data["{$this->field}_confirmation"]) {
-            return $this->errors[$this->field][] = ucfirst("$this->mod_field_name should match");
+        if (strlen($this->data[$this->input_name]) > $max_length) {
+            return $this->errors[$this->input_name][] = ucfirst("$this->mod_field_name must not exceed $max_length characters");
         }
 
         return;
