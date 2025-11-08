@@ -31,18 +31,23 @@ function old($input)
     return Core\Session::get('__flash', 'data')['old'][$input] ?? null;
 }
 
-function error($input)
+/**
+ * Tailwind CSS styled error message display
+ */
+function error($input_name)
 {
 
-    $errors = Core\Session::get('__flash', 'data')['errors'][$input] ?? null;
+    $errors = $_SESSION['__flash']['errors'][$input_name];
 
-    if (isset($_SESSION['__flash']['data']['errors'][$input])) {
-        echo "<ul class='m-0 p-0' style='list-style: none;'>";
-        foreach ($errors as $error) {
-            echo "<li class='text-danger'>" . htmlspecialchars($error) . "</li>";
-        }
-        echo "</ul>";
+    if (empty($errors)) {
+        return;
     }
+
+    echo "<p class='text-red-500 text-xs italic mt-2'>";
+    echo $errors[0];
+    echo "</p>";
+
+    return;
 }
 
 
